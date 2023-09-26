@@ -75,8 +75,27 @@ int main() {
                             string username, password;
                             cout << "Enter a new username: ";
                             cin >> username;
-                            cout << "Enter a new password: ";
-                            cin >> password;
+                                                    
+                            do {
+                                cout << "Enter your password: ";
+                                std::cin >> password;
+
+                                // Check password length
+                                if (password.length() < 8) {
+                                    std::cout << "Password is too short. It should be at least 8 characters long.\n";
+                                }
+                                // Check for at least one letter and one digit
+                                else if (!std::any_of(password.begin(), password.end(), ::isdigit) ||
+                                        !std::any_of(password.begin(), password.end(), ::isalpha)) {
+                                    std::cout << "Password should include both letters and digits.\n";
+                                }
+                                // If password meets criteria, break out of the loop
+                                else {
+                                    std::cout << "Password accepted!\n";
+                                    break;
+                                }
+                            } while (true);
+                                                    
                             
                             // Check if the username already exists (simplified for this example)
                             bool usernameExists = false;
