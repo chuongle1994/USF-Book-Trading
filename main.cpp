@@ -12,6 +12,78 @@ struct User {
 };
 
 int main() {
+    // ...
+
+// Define a structure to represent a book
+    struct Book {
+        string title;
+        string author;
+        string description;
+        string owner;
+    };
+    
+    // Function to list available books
+    void ListBooks(sql::Connection *con, const string &currentUser) {
+        try {
+            sql::Statement *stmt;
+            sql::ResultSet *res;
+    
+            stmt = con->createStatement();
+            res = stmt->executeQuery("SELECT * FROM books WHERE owner != '" + currentUser + "'");
+    
+            cout << "Available Books:\n";
+            while (res->next()) {
+                cout << "Title: " << res->getString("title") << endl;
+                cout << "Author: " << res->getString("author") << endl;
+                cout << "Description: " << res->getString("description") << endl;
+                cout << "Owner: " << res->getString("owner") << endl;
+                cout << "-----------------------------\n";
+            }
+    
+            delete res;
+            delete stmt;
+        } catch (sql::SQLException &e) {
+            cout << "MySQL error: " << e.what() << endl;
+        }
+    }
+    
+    // Function to search for books
+    void SearchBooks(sql::Connection *con, const string &searchTerm) {
+        try {
+            sql::Statement *stmt;
+            sql::ResultSet *res;
+    
+            stmt = con->createStatement();
+            res = stmt->executeQuery("SELECT * FROM books WHERE title LIKE '%" + searchTerm + "%'");
+    
+            cout << "Search Results:\n";
+            while (res->next()) {
+                cout << "Title: " << res->getString("title") << endl;
+                cout << "Author: " << res->getString("author") << endl;
+                cout << "Description: " << res->getString("description") << endl;
+                cout << "Owner: " << res->getString("owner") << endl;
+                cout << "-----------------------------\n";
+            }
+    
+            delete res;
+            delete stmt;
+        } catch (sql::SQLException &e) {
+            cout << "MySQL error: " << e.what() << endl;
+        }
+    }
+    
+    // Function to propose a trade
+    void ProposeTrade(sql::Connection *con, const string &currentUser, const string &bookTitle) {
+        // Implement trade proposal logic here
+        // You can update the database to reflect the trade proposal
+        cout << "Trade proposed for book: " << bookTitle << endl;
+        // Additional logic to update the database
+    }
+    
+    // Modify your main code to call these functions based on user input
+    
+    // ...
+
     vector<User> users; // Store user accounts
 
     cout << "Are you a USF student? (yes/no): ";
